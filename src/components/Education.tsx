@@ -20,7 +20,7 @@ export function Education() {
           <h4 className="text-lg text-neon-blue mb-4">Computer Science - Data Science</h4>
           <p className="text-gray-400 mb-6 font-medium">Rajiv Gandhi Prodyogiki Vishwavidyalaya</p>
           <div className="inline-flex px-3 py-1 rounded bg-white/5 text-sm text-gray-300 font-mono">
-            2023 – 2027
+            2022 – 2027
           </div>
         </motion.div>
 

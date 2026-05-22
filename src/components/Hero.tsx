@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Github, Linkedin, Mail, Download, ArrowRight } from "lucide-react";
 import React from "react";
+import profileImage from "../assets/images/regenerated_image_1779477419758.jpg";
 
 export function Hero() {
   return (
@@ -62,22 +63,42 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Profile Image Representation */}
+        {/* Profile Image & Cybernetic Orbital Representation */}
         <motion.div
            initial={{ opacity: 0, scale: 0.8 }}
            animate={{ opacity: 1, scale: 1 }}
            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
            className="relative flex justify-center items-center"
         >
-          <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-[2rem] md:rounded-[3rem] bg-gradient-to-tr from-[#7c3aed]/20 to-[#2563eb]/20 blur-3xl absolute opacity-40 mix-blend-screen animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] border border-white/10 rounded-[2rem] md:rounded-[3rem] relative p-2 glass overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#7c3aed]/10 to-transparent pointer-events-none z-10" />
-              <img 
-                src="https://picsum.photos/seed/sundaram/800/800" 
-                alt="Sundaram Kumar" 
-                className="w-full h-full object-cover rounded-[1.5rem] md:rounded-[2.5rem] grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                referrerPolicy="no-referrer"
-              />
+          {/* Neon atmospheric glows */}
+          <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full bg-gradient-to-tr from-[#7c3aed]/25 to-[#2563eb]/25 blur-3xl absolute opacity-60 mix-blend-screen animate-pulse" style={{ animationDuration: '4s' }} />
+          
+          <div className="w-[300px] h-[300px] md:w-[450px] md:h-[450px] border border-white/10 rounded-full flex items-center justify-center relative p-8 glass overflow-hidden group">
+              {/* Spinning decorative orbital rings */}
+              <div className="absolute inset-0 rounded-full border border-dashed border-white/5 animate-spin" style={{ animationDuration: '40s' }} />
+              <div className="absolute inset-4 rounded-full border border-dashed border-neon-purple/10 animate-spin" style={{ animationDuration: '30s', animationDirection: 'reverse' }} />
+              <div className="absolute inset-8 rounded-full border border-neon-blue/20 animate-spin" style={{ animationDuration: '20s' }} />
+              
+              {/* Scanline overlay effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-10 opacity-30 group-hover:opacity-10 transition-opacity" />
+              
+              {/* Photo Frame Container in the center */}
+              <div className="w-[180px] h-[180px] md:w-[260px] md:h-[260px] rounded-full overflow-hidden border-2 border-neon-purple/30 group-hover:border-neon-blue/80 transition-all duration-700 relative z-20 shadow-2xl shadow-neon-purple/10">
+                <img 
+                  src={profileImage} 
+                  alt="Sundaram Kumar" 
+                  className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                
+                {/* Cyber Scanner Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-neon-purple/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-neon-blue to-transparent animate-bounce pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ animationDuration: '2.5s' }} />
+              </div>
+
+              {/* Orbital Hub nodes */}
+              <div className="absolute top-1/2 left-4 w-2 h-2 rounded-full bg-neon-blue animate-ping" />
+              <div className="absolute bottom-12 right-12 w-1.5 h-1.5 rounded-full bg-neon-purple" />
           </div>
         </motion.div>
       </div>
