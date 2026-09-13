@@ -12,6 +12,7 @@ import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { CursorGlow } from "./components/CursorGlow";
 import { ResumeModal } from "./components/ResumeModal";
+import { GeminiChatbot } from "./components/GeminiChatbot";
 
 export default function App() {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
@@ -50,6 +51,9 @@ export default function App() {
       </main>
 
       <Footer />
+
+      {/* Floating Gemini AI Consultant Chatbot with Voice Transcription */}
+      <GeminiChatbot />
 
       {/* Interactive Resume Modal with Full PDF Preview & Direct Download */}
       <ResumeModal

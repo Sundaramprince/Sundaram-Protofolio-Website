@@ -8,7 +8,11 @@ import {
   Headphones,
   CheckCircle2,
   Sparkles,
+  QrCode,
+  CreditCard,
+  ArrowRight,
 } from "lucide-react";
+import { AMCPaymentModal } from "./AMCPaymentModal";
 
 interface PlanModalProps {
   planName: string;
@@ -19,9 +23,19 @@ interface PlanModalProps {
 function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [systemsCount, setSystemsCount] = useState("1-3");
+  const [systemsCount, setSystemsCount] = useState("1-3 Systems");
   const [city, setCity] = useState("Bhopal");
   const [submitted, setSubmitted] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const handleOpenPayment = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!phone) {
+      alert("Please enter your Phone / WhatsApp number so we can link your payment.");
+      return;
+    }
+    setShowPaymentModal(true);
+  };
 
   const handleWhatsAppDirect = () => {
     const text = encodeURIComponent(
@@ -31,9 +45,27 @@ function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
     onClose();
   };
 
-  const handleSubmitForm = (e: React.FormEvent) => {
+  const handleSubmitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    try {
+      await fetch("/api/amc/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planName,
+          customerName: name || "Customer",
+          phone,
+          city,
+          systemsCount,
+          amount: price,
+          paymentMethod: "WhatsApp Inquiry",
+          status: "pending",
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save AMC inquiry to database:", err);
+    }
     setTimeout(() => {
       const text = encodeURIComponent(
         `Hi Sundaram Tech Solutions! I am interested in ${planName} (${price}).\nName: ${name}\nPhone: ${phone}\nLocation: ${city}\nTotal Systems: ${systemsCount}`
@@ -42,6 +74,23 @@ function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
       onClose();
     }, 800);
   };
+
+  if (showPaymentModal) {
+    return (
+      <AMCPaymentModal
+        planName={planName}
+        price={price}
+        customerData={{
+          name: name || "Valued Client",
+          phone: phone || "+91 7061523829",
+          city: city || "Bhopal",
+          systemsCount,
+        }}
+        onClose={onClose}
+        onBack={() => setShowPaymentModal(false)}
+      />
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -55,6 +104,7 @@ function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
           </div>
           <div className="text-right">
             <span className="text-lg font-black text-white">{price}</span>
+            <span className="text-[11px] text-gray-400 block font-normal">1 Year Coverage</span>
           </div>
         </div>
 
@@ -65,22 +115,26 @@ function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
             <p className="text-xs text-gray-400">Connecting you with our technical manager</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmitForm} className="space-y-3.5">
+          <form onSubmit={handleOpenPayment} className="space-y-3.5">
             <div>
-              <label className="block text-xs text-gray-300 mb-1">Your Name / Organization</label>
+              <label className="block text-xs font-medium text-gray-200 mb-1.5 flex items-center justify-between">
+                <span>Your Name / Organization</span>
+                <span className="text-[10px] text-cyan-400 font-normal">Contact Person</span>
+              </label>
               <input
                 type="text"
-                required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Ramesh Kumar / Nexus Studio"
-                className="w-full px-3.5 py-2 bg-white/5 border border-white/10 focus:border-cyan-400 rounded-xl text-sm text-white focus:outline-none"
+                placeholder="e.g. Sundaram / Tech Solutions"
+                className="w-full px-4 py-2.5 bg-white/[0.07] border border-cyan-500/30 hover:border-cyan-500/50 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 rounded-xl text-sm font-medium text-white placeholder:text-gray-400/80 shadow-inner focus:outline-none transition-all"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-gray-300 mb-1">Phone / WhatsApp</label>
+                <label className="block text-xs text-gray-300 mb-1">
+                  Phone / WhatsApp <span className="text-cyan-400">*</span>
+                </label>
                 <input
                   type="tel"
                   required
@@ -111,27 +165,65 @@ function PlanInquiryModal({ planName, price, onClose }: PlanModalProps) {
                 className="w-full px-3.5 py-2 bg-[#0c1424] border border-white/10 focus:border-cyan-400 rounded-xl text-sm text-white focus:outline-none"
               >
                 <option value="1 PC">1 PC / Laptop</option>
-                <option value="2-5 Systems">2-5 Systems</option>
-                <option value="6-15 Systems">6-15 Systems</option>
-                <option value="Entire Office (15+)">Entire Office / Institution (15+)</option>
+                <option value="2-3 Systems">2-3 Systems</option>
+                <option value="4-10 Systems">4-10 Systems</option>
+                <option value="Entire Office / Institution (10+)">Entire Office / Institution (10+)</option>
               </select>
             </div>
 
-            <div className="pt-2 flex flex-col gap-2">
+            {/* Payment Method Highlights Banner */}
+            <div className="p-2.5 rounded-xl bg-gradient-to-r from-cyan-950/40 via-blue-950/40 to-slate-900 border border-cyan-500/30 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-md bg-[#00baf2]/20 border border-[#00baf2]/40 flex items-center justify-center text-[#00baf2]">
+                  <QrCode size={14} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-300 text-[11px] leading-tight">
+                    Paytm / UPI: <strong className="text-white font-mono">7061523829</strong>
+                  </span>
+                  <span className="text-[10px] text-cyan-400">Custom sender amount supported</span>
+                </div>
+              </div>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00baf2]/20 text-[#00baf2] border border-[#00baf2]/40 font-bold uppercase tracking-wider">
+                Paytm QR
+              </span>
+            </div>
+
+            <div className="pt-2 flex flex-col gap-2.5">
+              {/* PRIMARY ACTION: PAY NOW WITH PAYTM QR / UPI METHODS */}
               <button
-                type="submit"
-                className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-white text-sm shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+                type="button"
+                onClick={handleOpenPayment}
+                className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#00baf2] via-[#00d2ff] to-[#2563eb] hover:brightness-110 active:scale-[0.99] text-slate-950 font-black text-sm flex flex-col items-center justify-center shadow-xl shadow-cyan-500/30 border-2 border-white/30 transition-all cursor-pointer group"
               >
-                Confirm Inquiry via WhatsApp
+                <div className="flex items-center gap-2">
+                  <QrCode size={19} className="text-slate-950 group-hover:scale-110 transition-transform" />
+                  <span className="tracking-tight">Pay Now: Generate Paytm QR (7061523829)</span>
+                  <ArrowRight size={17} className="text-slate-950 group-hover:translate-x-1.5 transition-transform" />
+                </div>
+                <div className="flex items-center gap-2 mt-0.5 text-[11px] font-bold text-slate-900/90">
+                  <span className="px-1.5 py-0.2 rounded bg-white/40">Paytm • UPI</span>
+                  <span>Enter Sender Amount Online</span>
+                </div>
               </button>
 
+              {/* SECONDARY ACTION: INQUIRE VIA WHATSAPP */}
+              <button
+                type="button"
+                onClick={handleSubmitForm}
+                className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium text-xs border border-white/15 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <span>Consult / Inquire via WhatsApp First</span>
+              </button>
+
+              {/* DIRECT WHATSAPP CONNECT */}
               <button
                 type="button"
                 onClick={handleWhatsAppDirect}
-                className="w-full py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 font-medium text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full py-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 border border-emerald-500/30 font-medium text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
-                <Headphones size={14} />
-                <span>Instant WhatsApp Connect (+91 7061523829)</span>
+                <Headphones size={13} />
+                <span>Direct WhatsApp: +91 7061523829</span>
               </button>
 
               <button
