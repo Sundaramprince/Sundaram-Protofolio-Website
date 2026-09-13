@@ -1,16 +1,20 @@
+import { useState } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Skills } from "./components/Skills";
 import { Projects } from "./components/Projects";
+import { AMCPlans } from "./components/AMCPlans";
 import { Experience } from "./components/Experience";
 import { Education } from "./components/Education";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { CursorGlow } from "./components/CursorGlow";
+import { ResumeModal } from "./components/ResumeModal";
 
 export default function App() {
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -35,16 +39,23 @@ export default function App() {
       <Navbar />
       
       <main className="relative z-10 w-full overflow-hidden">
-        <Hero />
+        <Hero onOpenResume={() => setIsResumeModalOpen(true)} />
         <About />
         <Skills />
         <Projects />
+        <AMCPlans />
         <Experience />
-        <Education />
+        <Education onOpenResume={() => setIsResumeModalOpen(true)} />
         <Contact />
       </main>
 
       <Footer />
+
+      {/* Interactive Resume Modal with Full PDF Preview & Direct Download */}
+      <ResumeModal
+        isOpen={isResumeModalOpen}
+        onClose={() => setIsResumeModalOpen(false)}
+      />
     </div>
   );
 }

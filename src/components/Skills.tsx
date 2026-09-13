@@ -64,7 +64,7 @@ export function Skills() {
         <div className="lg:col-span-2">
           <SkillCard title="Tools & Frameworks" className="border-t border-white/10 pt-8 bg-transparent border-0 ring-0 shadow-none -mx-6 px-6">
             <div className="flex flex-wrap gap-3">
-              {['Git', 'GitHub', 'Django', 'React', 'Tailwind CSS', 'Framer Motion', 'Plotly', 'Prophet'].map((tool, idx) => (
+              {['Git', 'GitHub', 'Django', 'FastAPI', 'REST API', 'SQL', 'MongoDB', 'React', 'Tailwind CSS', 'Framer Motion', 'Plotly', 'Prophet'].map((tool, idx) => (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}

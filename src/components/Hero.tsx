@@ -1,9 +1,13 @@
 import { motion } from "motion/react";
-import { Github, Linkedin, Mail, Download, ArrowRight } from "lucide-react";
+import { Github, Linkedin, Mail, Download, ArrowRight, Instagram, Globe } from "lucide-react";
 import React from "react";
 import profileImage from "../assets/images/regenerated_image_1779477419758.jpg";
 
-export function Hero() {
+interface HeroProps {
+  onOpenResume?: () => void;
+}
+
+export function Hero({ onOpenResume }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden pb-20">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center z-10 relative">
@@ -43,22 +47,27 @@ export function Hero() {
             >
               View Projects <ArrowRight size={16} />
             </motion.a>
-            <motion.a
-              whileHover={{ backgroundColor: "rgba(255,255,255,0.05)" }}
+            <motion.button
+              whileHover={{ backgroundColor: "rgba(255,255,255,0.08)", scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              href="#resume"
-              className="px-5 py-2.5 border border-white/20 text-white text-xs font-bold rounded-full transition-colors uppercase tracking-wider flex items-center gap-2"
+              type="button"
+              onClick={onOpenResume || (() => {
+                document.getElementById('resume')?.scrollIntoView({ behavior: 'smooth' });
+              })}
+              className="px-5 py-2.5 border border-white/20 hover:border-neon-purple/50 text-white text-xs font-bold rounded-full transition-all uppercase tracking-wider flex items-center gap-2 cursor-pointer"
             >
-              Download Resume <Download size={16} />
-            </motion.a>
+              Download Resume <Download size={16} className="text-neon-purple" />
+            </motion.button>
           </div>
 
           <div className="mt-8 pt-6 border-t border-white/5 w-full max-w-md">
             <div className="text-[10px] text-white/40 uppercase tracking-widest mb-3">Connectivity</div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <SocialIcon href="https://github.com" icon={<Github size={18} />} />
               <SocialIcon href="https://www.linkedin.com/in/sundaram-prince-kumar" icon={<Linkedin size={18} />} />
-              <SocialIcon href="mailto:sundaramkumara2a29576@gmail.com" icon={<Mail size={18} />} />
+              <SocialIcon href="https://www.instagram.com/sundaramprincekumar/" icon={<Instagram size={18} />} />
+              <SocialIcon href="https://sundaramprince.weebly.com/" icon={<Globe size={18} />} />
+              <SocialIcon href="mailto:sundaramprincekumar@gmail.com" icon={<Mail size={18} />} />
             </div>
           </div>
         </motion.div>

@@ -4,9 +4,19 @@ import { Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
   {
+    role: "Software Developer",
+    company: "VedTech Service Group (Gurgaon)",
+    date: "2026 – Present",
+    desc: [
+      "Software build, maintenance, and system design utilizing Python, Django, REST API, and FastAPI.",
+      "Comprehensive testing, debugging, and database architecture with MongoDB and SQL.",
+      "Optimized backend queries and improved data retrieval efficiency across application services."
+    ]
+  },
+  {
     role: "Database Admin",
     company: "CBSL Group",
-    date: "2025 – Present",
+    date: "2025 – 2026",
     desc: [
       "Managed comprehensive data entry workflows and large Excel-based datasets.",
       "Vastly improved data retrieval efficiency and data integrity protocols."
@@ -15,7 +25,7 @@ const experiences = [
   {
     role: "Data Analysis Intern",
     company: "Zidio Development",
-    date: "Past",
+    date: "2024 – 2025",
     desc: [
       "Worked heavily on complex banking data projects.",
       "Built and presented analytical models to support real-world financial decision making."

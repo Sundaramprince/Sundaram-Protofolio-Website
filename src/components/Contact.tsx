@@ -1,6 +1,6 @@
 import { SectionWrapper } from "./SectionWrapper";
 import { motion } from "motion/react";
-import { Send, Github, Linkedin, Mail } from "lucide-react";
+import { Send, Github, Linkedin, Mail, Instagram, Globe } from "lucide-react";
 
 export function Contact() {
   return (
@@ -52,13 +52,13 @@ export function Contact() {
             <h3 className="text-xl font-semibold text-white mb-6">Connect directly</h3>
             <div className="space-y-6">
               
-              <a href="mailto:sundaramkumara2a29576@gmail.com" className="flex items-center gap-4 text-gray-400 hover:text-white group transition-colors">
+              <a href="mailto:sundaramprincekumar@gmail.com" className="flex items-center gap-4 text-gray-400 hover:text-white group transition-colors">
                  <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-neon-blue/20 group-hover:text-neon-blue transition-colors text-white">
                    <Mail size={20} />
                  </div>
                  <div>
                    <p className="text-sm text-gray-500 mb-1">Email</p>
-                   <p className="font-medium">sundaramkumara2a29576@gmail.com</p>
+                   <p className="font-medium">sundaramprincekumar@gmail.com</p>
                  </div>
               </a>
 
@@ -69,6 +69,26 @@ export function Contact() {
                  <div>
                    <p className="text-sm text-gray-500 mb-1">LinkedIn</p>
                    <p className="font-medium">/in/sundaram-prince-kumar</p>
+                 </div>
+              </a>
+
+              <a href="https://www.instagram.com/sundaramprincekumar/" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-400 hover:text-white group transition-colors">
+                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-pink-500/20 group-hover:text-pink-400 transition-colors text-white">
+                   <Instagram size={20} />
+                 </div>
+                 <div>
+                   <p className="text-sm text-gray-500 mb-1">Instagram</p>
+                   <p className="font-medium">@sundaramprincekumar</p>
+                 </div>
+              </a>
+
+              <a href="https://sundaramprince.weebly.com/" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-400 hover:text-white group transition-colors">
+                 <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-neon-purple/20 group-hover:text-neon-purple transition-colors text-white">
+                   <Globe size={20} />
+                 </div>
+                 <div>
+                   <p className="text-sm text-gray-500 mb-1">Website</p>
+                   <p className="font-medium">sundaramprince.weebly.com</p>
                  </div>
               </a>
 
